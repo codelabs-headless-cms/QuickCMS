@@ -1,0 +1,8 @@
+node_modules/
+
+# IDE related
+.history
+.vscode
+
+# Developer keys
+.env
