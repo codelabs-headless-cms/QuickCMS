@@ -41,6 +41,6 @@ const getUserByEmail = async (email) => {
 		.get();
 
 	if (!userSnap.docs[0]) return null;
-
-	return userSnap.docs[0].data();
+	console.log(userSnap.docs[0].id);
+	return { id: userSnap.docs[0].id, ...userSnap.docs[0].data() };
 };
