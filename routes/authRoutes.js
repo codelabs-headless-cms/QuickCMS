@@ -75,4 +75,43 @@ module.exports = (app) => {
 		if (project.data().userId !== req.user.id) return res.sendStatus(401);
 		res.send(project.data());
 	});
+
+	app.post('/project/page', (req, res) => {
+		if (!req.user) {
+			return res.sendStatus(401);
+		}
+		console.log(req.user);
+		db.collection('pages')
+			.add({
+				title: req.body.title,
+				schema: req.body.schema,
+				userId: req.user.id,
+				projectId: req.body.projectId
+			})
+			.then(
+				() => res.sendStatus(200),
+				() => res.send({ error: 'Page was not added' })
+			);
+	});
+
+	app.get('/project/pages', async (req, res) => {
+		if (!req.user) return res.sendStatus(401);
+
+		const projectPages = await db
+		.collection('pages')
+		.where('projectId', '==', req.query.id)
+		.get();
+
+		const pages=[];
+
+		projectPages.forEach((page)=>{
+			pages.push(page.data());
+		});
+		if (pages.length == 0){
+			return res.send({error: 'No pages were found for this project'});
+		}
+		res.send(pages);
+
+	});
+
 };
