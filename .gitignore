@@ -6,3 +6,7 @@ node_modules/
 
 # Developer keys
 .env
+
+.idea
+
+dist
