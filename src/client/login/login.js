@@ -6,7 +6,6 @@ class Login extends React.Component {
     render() {
         return (
     <div className="container">
-    
     <div className="login_form">
    <h4 className="app_name">QuickCMS</h4>
         <form>
