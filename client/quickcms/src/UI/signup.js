@@ -3,8 +3,6 @@ class SignUp extends React.Component {
   render() {
     return (
       <div className="container">
-      
-        <div className="signup_form">
         <h4 className="app_name">QuickCMS</h4>
           <form>
           <h3 className="signup_heading">Sign Up</h3>
@@ -31,7 +29,6 @@ class SignUp extends React.Component {
             
             <button type="submit" class="btn btn-dark">Sign up</button>
           </form>
-        </div>
     </div>
     );
   }

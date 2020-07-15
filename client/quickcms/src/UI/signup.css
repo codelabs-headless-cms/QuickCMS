@@ -1,7 +1,13 @@
+.container {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+
+
 .app_name {
     margin-top:30px;
-    left: 45%;
-    right: 45%;
     bottom: 82.56%;
     color: #0B0C45;
     text-align: center;
@@ -15,7 +21,7 @@ form {
     padding: 40px;
     width: 400px;
     height: 527px;
-    left: 500px;
+    /*left: 500px;*/
     top: 85px;
     border: 1px solid #E5E5E5;
     box-sizing: border-box;
