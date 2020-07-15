@@ -29,7 +29,7 @@ class SignUp extends React.Component {
             <div class="form-group">
               <label className="form-label" for="InputPassword2">Confirm Your Password</label>
               <input type="password" class="form-control" id="InputPassword2" placeholder="Secret password"/>
-              <small id="emailHelp" class="form-text text-muted">Already have an account? <a href="../login.html"> login here.</a></small>
+              <small id="emailHelp" class="form-text text-muted">Already have an account? <a href="/login"> login here.</a></small>
             </div>
             
             <button type="submit" class="btn btn-dark">Sign up</button>

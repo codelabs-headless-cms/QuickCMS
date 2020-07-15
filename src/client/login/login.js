@@ -19,7 +19,7 @@ class Login extends React.Component {
           <div class="form-group">
             <label for="InputPassword">Password</label>
             <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Secret password"/>
-            <small id="emailHelp" class="form-text text-muted">Don't have an account? <a href="../signup.html"> Sign up here.</a></small>
+            <small id="emailHelp" class="form-text text-muted">Don't have an account? <a href="/signup"> Sign up here.</a></small>
           </div>
           
           <button type="submit" class="btn btn-dark">Login</button>
