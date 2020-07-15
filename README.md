@@ -4,7 +4,7 @@
 
 1. Clone the repository
 2. Run ```npm install``` from terminal to install dependencies
-3. Run ```nodemon server.js``` inside the cloned directory from terminal
+3. Run ```npm run dev``` inside the cloned directory from terminal
 
 ## API endpoints
 
