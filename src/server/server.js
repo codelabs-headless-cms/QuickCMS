@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
 
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
@@ -20,6 +21,8 @@ app.use(
 );
 app.use(bodyParser.json());
 
+app.use(express.static('dist'));
+
 app.use(
 	cookieSession({
 		maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -31,6 +34,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require('./routes/authRoutes')(app);
+
+// if we hit any route
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, '../client/index.html'));
+})
 
 const PORT = process.env.PORT || 5000;
 console.log('Running at ' + PORT);

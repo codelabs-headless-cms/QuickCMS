@@ -1,3 +1,6 @@
+import React from 'react';
+import './signup.css';
+
 class SignUp extends React.Component {
 
   render() {
@@ -24,7 +27,7 @@ class SignUp extends React.Component {
             <div class="form-group">
               <label className="form-label" for="InputPassword2">Confirm Your Password</label>
               <input type="password" class="form-control" id="InputPassword2" placeholder="Secret password"/>
-              <small id="emailHelp" class="form-text text-muted">Already have an account? <a href="login.html"> login here.</a></small>
+              <small id="emailHelp" class="form-text text-muted">Already have an account? <a href="/login"> login here.</a></small>
             </div>
             
             <button type="submit" class="btn btn-dark">Sign up</button>
@@ -34,7 +37,4 @@ class SignUp extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <SignUp />,
-  document.getElementById('signup_container')
-);
+export default SignUp;
