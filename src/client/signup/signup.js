@@ -1,5 +1,6 @@
 import React from 'react';
 import './signup.css';
+import '../app.css';
 
 class SignUp extends React.Component {
 
@@ -7,8 +8,8 @@ class SignUp extends React.Component {
     return (
       <div className="container">
         <h4 className="app_name">QuickCMS</h4>
-          <form>
-          <h3 className="signup_heading">Sign Up</h3>
+          <form className="signup-form">
+          <h3 className="heading">Sign Up</h3>
           <div className="form-group">
               <label className="form-label" for="name">Your Name</label>
               <input type="text" class="form-control" placeholder="My project name" />

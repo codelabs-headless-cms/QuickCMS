@@ -1,47 +1,11 @@
-.container {
-    display:flex;
-    justify-content:center;
-    align-items:center;
+.signup-form {
+    height: 527px;
+    top: 85px;
+    
 }
-
 
 
 .app_name {
-    margin-top:30px;
-    bottom: 82.56%;
-    color: #0B0C45;
-    text-align: center;
-    font-weight: bold;
-    font-size:21px;
-}
-
-form {
-    position: absolute;
-    background-color: white;
-    padding: 40px;
-    width: 400px;
-    height: 527px;
-    /*left: 500px;*/
-    top: 85px;
-    border: 1px solid #E5E5E5;
-    box-sizing: border-box;
-    border-radius: 5px;
-
-}
-
-.signup_heading {
-    font-weight:bold;
-    font-size:25px;
-    line-height:30px;
-}
-
-.form-label {
-    left:2px;
-    font-weight: 600;
-    font-size:16px;
-    line-height:19px;
-}
-
-.btn {
-    background-color: #0B0C45;
+    margin-top:45px;
+    
 }

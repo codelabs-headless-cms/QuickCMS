@@ -113,5 +113,21 @@ module.exports = (app) => {
 		res.send(pages);
 
 	});
+	
+	app.put('/project/page', (req, res) => {
+		if (!req.user) {
+			return res.sendStatus(401);
+		}
+		console.log(req.user);
+		db.collection('pages').doc(req.body.pageId)
+			.set({
+				title: req.body.title,
+				schema: req.body.schema,
+			})
+			.then(
+				() => res.sendStatus(200),
+				() => res.send({ error: 'Page was not added' })
+			);
+	});
 
 };
