@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "node src/server/server.js",
 		"build": "./node_modules/.bin/parcel src/client/app.js -o index",
-		"dev": "npm-run-all --parallel dev:client dev:server",
+		"dev": "./node_modules/.bin/npm-run-all --parallel dev:client dev:server",
 		"dev:server": "nodemon src/server/server.js --watch src/server",
 		"dev:client": "npm run build --watch"
 	},

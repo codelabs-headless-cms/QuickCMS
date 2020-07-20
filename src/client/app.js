@@ -8,6 +8,7 @@ import {
 
 import Login from "./login/login";
 import SignUp from "./signup/signup";
+// import "./app.css";
 
 const App = () => (
     <Router>
