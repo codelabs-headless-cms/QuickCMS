@@ -1,0 +1,13 @@
+.add-new-field-button {
+	width: 80%;
+	margin-top: 2px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	color: white;
+	background-color: #0dd3ff;
+	border-radius: 3px;
+}
+
+.add-new-field-button:hover {
+	background-color: #05a1c4;
+}
