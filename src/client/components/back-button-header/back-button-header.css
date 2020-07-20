@@ -1,0 +1,20 @@
+.btn:hover {
+	color: #e5e5e5;
+}
+
+.back-button {
+	color: white;
+	border-radius: 0;
+}
+
+.save-button {
+	color: white;
+	max-height: 85%;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+.share-button {
+	background-color: #0dd3ff;
+	color: white;
+}
