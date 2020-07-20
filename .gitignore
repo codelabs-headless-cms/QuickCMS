@@ -12,3 +12,4 @@ node_modules/
 dist
 
 .cache
+client/quickcms/build
