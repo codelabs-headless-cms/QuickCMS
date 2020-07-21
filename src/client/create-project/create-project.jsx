@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import BackButtonHeader from '../components/back-button-header/back-button-header';
@@ -8,36 +9,45 @@ import './create-project.css';
 
 const CreateProject = () => {
 	const blankField = { key: '', value: 'String' };
+	const [postSuccess, setPostSuccess] = useState(false);
 	const [project, setProject] = useState({
 		title: '',
 		description: '',
 		schema: [{ ...blankField }],
 	});
-	const [schemaFields, setSchemaFields] = useState([{ ...blankField }]);
 
 	const addField = () => {
-		setProject({ ...project, schema: [...project.schema, { ...blankField }] });
+		setProject((project) => ({
+			...project,
+			schema: [...project.schema, { ...blankField }],
+		}));
 	};
 
-	const removeField = () => {
-		project.schema.pop();
-		setSchemaFields([...schemaFields]);
+	const removeField = (fieldIndex) => {
+		setProject((project) => ({
+			...project,
+			schema: project.schema.filter((p, index) => index !== fieldIndex),
+		}));
 	};
 
 	const handleFieldChange = (e) => {
 		const updateFields = [...project.schema];
 		updateFields[e.target.dataset.idx][e.target.id] = e.target.value;
-		setProject({ ...project, schema: [...updateFields] });
+		setProject((project) => ({ ...project, schema: [...updateFields] }));
 	};
 
 	const handleSubmit = (event) => {
+		event.preventDefault();
 		axios
 			.post('/project', project)
-			.then((res) => console.log(res))
+			.then((res) => setPostSuccess(res.data))
 			.catch((error) => console.log(error));
-
-		event.preventDefault();
 	};
+
+	if (postSuccess) {
+		const url = `/project/${postSuccess}/pages`;
+		return <Redirect to={url} />;
+	}
 
 	return (
 		<div>
@@ -70,7 +80,10 @@ const CreateProject = () => {
 							placeholder="My project description"
 							value={project.description}
 							onChange={(e) =>
-								setProject({ ...project, description: e.target.value })
+								setProject({
+									...project,
+									description: e.target.value,
+								})
 							}
 							required
 						/>
@@ -82,7 +95,7 @@ const CreateProject = () => {
 							const keyID = `key-${idx}`;
 							const valueID = `value-${idx}`;
 							return (
-								<div key={`field-${idx}`} className="form-row">
+								<div key={`field-${idx}`} className="form-row mx-0">
 									<input
 										placeholder="Field Name"
 										type="text"
@@ -109,7 +122,7 @@ const CreateProject = () => {
 									</select>
 									<div className="col-1 mt-1 text-danger">
 										<Trash2
-											onClick={removeField}
+											onClick={() => removeField(idx)}
 											style={{ cursor: 'pointer' }}
 										/>
 									</div>

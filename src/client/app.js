@@ -4,7 +4,7 @@ import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
-	Redirect,
+	useLocation,
 } from 'react-router-dom';
 import axios from 'axios';
 
@@ -12,38 +12,56 @@ import Login from './login/login';
 import SignUp from './signup/signup';
 import CreateProject from './create-project/create-project';
 import { PrivateRoute } from './components/private-route/private-route';
+import PagesView from './pages-view/pages.view';
+import Spinner from './components/spinner/spinner';
 
 const App = () => {
-	const [user, setUser] = useState('');
+	const [user, setUser] = useState({ data: null, loading: true });
+	const location = useLocation();
+
 	useEffect(() => {
 		axios
 			.get('/current_user')
-			.then((result) => setUser(result.data))
-			.catch(() => setUser(false));
-	}, []);
+			.then((result) => {
+				setUser({ data: result.data, loading: false });
+			})
+			.catch(() => {
+				setUser({ data: '', loading: false });
+			});
+	}, [location]);
 
-	const loginRoutes = [
-		<Route path="/login" component={Login} exact key={1} />,
-		<Route path="/signup" component={SignUp} exact key={2} />,
-		<Redirect to="/login" key={999} />,
-	];
+	if (user.loading) {
+		return <Spinner />;
+	}
 
-	const userRoutes = [
-		<PrivateRoute
-			path="/new"
-			component={CreateProject}
-			auth={user}
-			exact
-			key={1}
-		/>,
-		<Redirect to="new" key={999} />,
-	];
+	const { data } = user;
 
 	return (
-		<Router>
-			<Switch>{user ? userRoutes : loginRoutes}</Switch>
-		</Router>
+		<Switch>
+			<Route
+				path="/login"
+				component={(props) => <Login auth={data} {...props} />}
+				exact
+			/>
+			<Route
+				path="/signup"
+				component={(props) => <SignUp auth={data} {...props} />}
+				exact
+			/>
+			<PrivateRoute path="/new" component={CreateProject} auth={data} exact />
+			<PrivateRoute
+				path="/project/:id/pages"
+				component={PagesView}
+				auth={data}
+				exact
+			/>
+		</Switch>
 	);
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+	<Router>
+		<App />
+	</Router>,
+	document.getElementById('root')
+);

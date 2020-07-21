@@ -9,7 +9,6 @@ module.exports = (app) => {
 	});
 
 	app.post('/login', passport.authenticate('local'), (req, res) => {
-		console.log('logged in', req.user.email);
 		var userInfo = {
 			email: req.user.email,
 			userId: req.user.id,
@@ -56,7 +55,7 @@ module.exports = (app) => {
 				userId: req.user.id,
 			})
 			.then(
-				() => res.sendStatus(200),
+				(result) => res.send(result.id),
 				() => res.send({ error: 'Project was not added' })
 			);
 	});

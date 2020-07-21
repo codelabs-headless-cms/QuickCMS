@@ -5,7 +5,7 @@ import axios from 'axios';
 import './signup.css';
 import '../app.css';
 
-const SignUp = () => {
+const SignUp = ({ auth }) => {
 	const [user, setUser] = useState({
 		name: '',
 		email: '',
@@ -32,10 +32,14 @@ const SignUp = () => {
 					setSuccess(true);
 				}
 			})
-			.catch((error) => {
+			.catch(() => {
 				setError(true);
 			});
 	};
+
+	if (auth) {
+		return <Redirect to="/new" />;
+	}
 
 	if (success) {
 		return <Redirect to="/login" />;

@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import './login.css';
 import '../app.css';
 
-const Login = () => {
-	const [loggedIn, setLoggedIn] = useState(false);
+const Login = ({ auth }) => {
 	const [user, setUser] = useState({ email: '', password: '' });
 	const [error, setError] = useState(false);
+	const [loggedIn, setLoggedIn] = useState(false);
 
 	const handleSubmit = (e) => {
 		setError(false);
 		axios
 			.post('/login', user)
 			.then(() => setLoggedIn(true))
-			.catch((error) => {
+			.catch(() => {
 				setError(true);
 			});
 		e.preventDefault();
 	};
 
-	if (loggedIn) {
-		window.location = '/new';
+	if (auth || loggedIn) {
+		return <Redirect to="/new" />;
 	}
 
 	return (
