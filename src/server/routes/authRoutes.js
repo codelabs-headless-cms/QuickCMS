@@ -3,8 +3,12 @@ const bcrypt = require('bcrypt');
 const db = require('../services/database');
 
 module.exports = (app) => {
+	app.get('/current_user', (req, res) => {
+		if (!req.user) res.send(false);
+		res.send(req.user);
+	});
+
 	app.post('/login', passport.authenticate('local'), (req, res) => {
-		console.log('logged in', req.user);
 		var userInfo = {
 			email: req.user.email,
 			userId: req.user.id,
@@ -43,7 +47,6 @@ module.exports = (app) => {
 		if (!req.user) {
 			return res.sendStatus(401);
 		}
-		console.log(req.user);
 		db.collection('projects')
 			.add({
 				title: req.body.title,
@@ -52,7 +55,7 @@ module.exports = (app) => {
 				userId: req.user.id,
 			})
 			.then(
-				() => res.sendStatus(200),
+				(result) => res.send(result.id),
 				() => res.send({ error: 'Project was not added' })
 			);
 	});
@@ -80,13 +83,12 @@ module.exports = (app) => {
 		if (!req.user) {
 			return res.sendStatus(401);
 		}
-		console.log(req.user);
 		db.collection('pages')
 			.add({
 				title: req.body.title,
 				schema: req.body.schema,
 				userId: req.user.id,
-				projectId: req.body.projectId
+				projectId: req.body.projectId,
 			})
 			.then(
 				() => res.sendStatus(200),
@@ -98,28 +100,27 @@ module.exports = (app) => {
 		if (!req.user) return res.sendStatus(401);
 
 		const projectPages = await db
-		.collection('pages')
-		.where('projectId', '==', req.query.id)
-		.get();
+			.collection('pages')
+			.where('projectId', '==', req.query.id)
+			.get();
 
-		const pages=[];
+		const pages = [];
 
-		projectPages.forEach((page)=>{
+		projectPages.forEach((page) => {
 			pages.push(page.data());
 		});
-		if (pages.length == 0){
-			return res.send({error: 'No pages were found for this project'});
+		if (pages.length == 0) {
+			return res.send({ error: 'No pages were found for this project' });
 		}
 		res.send(pages);
-
 	});
-	
+
 	app.put('/project/page', (req, res) => {
 		if (!req.user) {
 			return res.sendStatus(401);
 		}
-		console.log(req.user);
-		db.collection('pages').doc(req.body.pageId)
+		db.collection('pages')
+			.doc(req.body.pageId)
 			.set({
 				title: req.body.title,
 				schema: req.body.schema,
@@ -129,5 +130,4 @@ module.exports = (app) => {
 				() => res.send({ error: 'Page was not added' })
 			);
 	});
-
 };

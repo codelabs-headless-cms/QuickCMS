@@ -14,8 +14,6 @@ passport.deserializeUser((email, done) => {
 passport.use(
 	new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
 		getUserByEmail(email).then(async (user) => {
-			console.log('USER', user);
-
 			if (user == null) {
 				return done(null, false);
 			}
@@ -34,13 +32,11 @@ passport.use(
 );
 
 const getUserByEmail = async (email) => {
-	console.log(email);
 	const userSnap = await db
 		.collection('users')
 		.where('email', '==', email)
 		.get();
 
 	if (!userSnap.docs[0]) return null;
-	console.log(userSnap.docs[0].id);
 	return { id: userSnap.docs[0].id, ...userSnap.docs[0].data() };
 };
