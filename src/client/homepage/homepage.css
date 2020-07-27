@@ -1,0 +1,99 @@
+a{
+    color: grey;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.homepage_container{
+    background-color: white;
+}
+.heading{
+    color: black;
+    font-weight: bold;
+    font-size:25px;
+
+}
+
+.project_name{
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    border: 2px solid grey;
+    margin:10px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    
+}
+.project_title{
+    padding-left: 5px;
+    padding-top: 7px;
+}
+.header{
+    padding-top: 40px;
+    padding-right: 140px;
+    padding-left: 140px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.homepage_app_name{
+    color: #0B0C45;
+    font-weight: bold;
+    font-size:21px;
+}
+
+.left{
+    padding-right: 20px;
+}
+
+.projects{
+    padding-top: 20px;
+    padding-right: 180px;
+    padding-left: 180px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.search_bar{
+    padding-top: 20px;
+    padding-left: 180px;
+    padding-right: 180px;
+    display: flex;
+    flex-direction: column;
+
+}
+.projects_list{
+    padding-top: 30px;
+    padding-left: 180px;
+    padding-right: 180px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.block{
+    align-self: flex-start;
+    padding-right: 10px;
+    border-radius: 10px;
+    height: 40px;
+    width: 40px;
+    background-color: rgb(105, 103, 103);
+}
+
+.btn{
+color:white; 
+}
+
+input#search{
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: grey;
+    background-image: url("lupa2.png");
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position-y: center;
+    text-indent: 20px;
+}
