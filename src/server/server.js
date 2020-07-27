@@ -43,3 +43,10 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 5000;
 console.log('Running at ' + PORT);
 app.listen(PORT);
+
+app.get('/homepage', (req, res)=>{
+	if (!req.user){
+		return res.sendStatus(401);
+	}
+	res.sendFile(path.join(dirname, '../client/index.html'));
+})
