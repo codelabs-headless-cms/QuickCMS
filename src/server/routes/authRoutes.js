@@ -1,11 +1,32 @@
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const db = require('../services/database');
+const crypto = require('crypto');
 
 module.exports = (app) => {
 	app.get('/current_user', (req, res) => {
 		if (!req.user) res.send(false);
-		res.send(req.user);
+		res.send({
+			email: req.user.email,
+			token: req.user.token,
+			name: req.user.name,
+		});
+	});
+
+	app.get('/refresh_token', async (req, res) => {
+		if (!req.user) res.send(false);
+		const token = crypto.randomBytes(128).toString('hex');
+		const user = await db
+			.collection('users')
+			.where('email', '==', req.user.email)
+			.get();
+
+		const newUser = await db
+			.collection('users')
+			.doc(user.docs[0].id)
+			.update({ token: token });
+
+		res.send(token);
 	});
 
 	app.post('/login', passport.authenticate('local'), (req, res) => {
@@ -25,11 +46,13 @@ module.exports = (app) => {
 
 		if (user.docs.length === 0) {
 			const hashedPassword = await bcrypt.hash(req.body.password, 10);
+			const token = crypto.randomBytes(128).toString('hex');
 			db.collection('users')
 				.add({
 					email: req.body.email,
 					password: hashedPassword,
 					name: req.body.name,
+					token: token,
 				})
 				.then(() => res.sendStatus(200))
 				.catch((error) => res.send({ error: error }));
@@ -129,5 +152,74 @@ module.exports = (app) => {
 				() => res.sendStatus(200),
 				() => res.send({ error: 'Page was not added' })
 			);
+	});
+
+	const checkToken = (token, res) => {
+		if (!token) {
+			return res.status(400).send({
+				error: 'You need to pass you token in the body!',
+			});
+		}
+	};
+
+	const checkUser = async (token, res) => {
+		const user = await db.collection('users').where('token', '==', token).get();
+
+		if (user.docs.length === 0) {
+			return res.status(401).send({
+				error: 'This token does not belong to anyone',
+			});
+		}
+
+		return { userId: user.docs[0].id };
+	};
+
+	//External Routes
+	app.get('/api/projects', async (req, res) => {
+		checkToken(req.body.token, res);
+		const { userId } = await checkUser(req.body.token, res);
+		if (!userId) return;
+
+		const projectsSnapshot = await db
+			.collection('projects')
+			.where('userId', '==', userId)
+			.get();
+
+		const projects = [];
+
+		projectsSnapshot.forEach((project) => projects.push(project.data()));
+
+		res.send(projects);
+	});
+
+	app.get('/api/project/:id/pages', async (req, res) => {
+		checkToken(req.body.token, res);
+		const { userId } = await checkUser(req.body.token, res);
+		if (!userId) return;
+
+		const pagesSnapshot = await db
+			.collection('pages')
+			.where('projectId', '==', req.params.id)
+			.get();
+
+		const pages = [];
+
+		pagesSnapshot.forEach((page) => pages.push(page.data()));
+
+		res.send(pages);
+	});
+
+	app.get('/api/page/:id', async (req, res) => {
+		checkToken(req.body.token, res);
+		const { userId } = await checkUser(req.body.token, res);
+		if (!userId) return;
+
+		const pagesSnapshot = await db.collection('pages').doc(req.params.id).get();
+		const page = pagesSnapshot.data();
+		if (page.userId !== userId) {
+			return res.sendStatus(401);
+		}
+
+		res.send(page);
 	});
 };
