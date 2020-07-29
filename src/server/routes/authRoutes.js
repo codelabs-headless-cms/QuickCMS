@@ -132,9 +132,7 @@ module.exports = (app) => {
 		projectPages.forEach((page) => {
 			pages.push(page.data());
 		});
-		if (pages.length == 0) {
-			return res.send({ error: 'No pages were found for this project' });
-		}
+
 		res.send(pages);
 	});
 
@@ -156,28 +154,36 @@ module.exports = (app) => {
 
 	const checkToken = (token, res) => {
 		if (!token) {
-			return res.status(400).send({
+			res.status(400).send({
 				error: 'You need to pass you token in the body!',
 			});
+
+			return false;
 		}
+
+		return true;
 	};
 
 	const checkUser = async (token, res) => {
 		const user = await db.collection('users').where('token', '==', token).get();
 
 		if (user.docs.length === 0) {
-			return res.status(401).send({
+			res.status(401).send({
 				error: 'This token does not belong to anyone',
 			});
+
+			return false;
 		}
 
-		return { userId: user.docs[0].id };
+		return user.docs[0].id;
 	};
 
 	//External Routes
 	app.get('/api/projects', async (req, res) => {
-		checkToken(req.body.token, res);
-		const { userId } = await checkUser(req.body.token, res);
+		const validToken = checkToken(req.body.token, res);
+		if (!validToken) return;
+		const userId = await checkUser(req.body.token, res);
+		console.log(userId);
 		if (!userId) return;
 
 		const projectsSnapshot = await db
@@ -193,8 +199,9 @@ module.exports = (app) => {
 	});
 
 	app.get('/api/project/:id/pages', async (req, res) => {
-		checkToken(req.body.token, res);
-		const { userId } = await checkUser(req.body.token, res);
+		const validToken = checkToken(req.body.token, res);
+		if (!validToken) return;
+		const userId = await checkUser(req.body.token, res);
 		if (!userId) return;
 
 		const pagesSnapshot = await db
@@ -210,8 +217,9 @@ module.exports = (app) => {
 	});
 
 	app.get('/api/page/:id', async (req, res) => {
-		checkToken(req.body.token, res);
-		const { userId } = await checkUser(req.body.token, res);
+		const validToken = checkToken(req.body.token, res);
+		if (!validToken) return;
+		const userId = await checkUser(req.body.token, res);
 		if (!userId) return;
 
 		const pagesSnapshot = await db.collection('pages').doc(req.params.id).get();
