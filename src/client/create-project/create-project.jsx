@@ -51,7 +51,7 @@ const CreateProject = () => {
 
 	return (
 		<div>
-			<BackButtonHeader title="Go Back" backLink="/homepage" buttons={false} />
+			<BackButtonHeader title="Go Back" backLink="/" buttons={false} />
 			<div className="bg-white min-vh-100 h-100">
 				<form
 					className="col-12 col-sm-7 col-md-5 col-lg-4 mx-auto"

@@ -14,7 +14,6 @@ import CreateProject from './create-project/create-project';
 import { PrivateRoute } from './components/private-route/private-route';
 import PagesView from './pages-view/pages.view';
 import Spinner from './components/spinner/spinner';
-import Profile from './profile/profile';
 
 const App = () => {
 	const [user, setUser] = useState({ data: null, loading: true });
@@ -56,7 +55,6 @@ const App = () => {
 				auth={data}
 				exact
 			/>
-			<PrivateRoute path="/profile" component={Profile} auth={data} exact />
 		</Switch>
 	);
 };
