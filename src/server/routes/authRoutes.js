@@ -86,7 +86,7 @@ module.exports = (app) => {
 	app.get('/projects', async (req, res) => {
 		const projectsSnapshot = await db
 			.collection('projects')
-			.where('userId', '==', req.user.id)
+			.where('userId', '==', req.user.id)			
 			.get();
 
 		const results = [];
