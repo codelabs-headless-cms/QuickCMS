@@ -183,7 +183,6 @@ module.exports = (app) => {
 		const validToken = checkToken(req.body.token, res);
 		if (!validToken) return;
 		const userId = await checkUser(req.body.token, res);
-		console.log(userId);
 		if (!userId) return;
 
 		const projectsSnapshot = await db
