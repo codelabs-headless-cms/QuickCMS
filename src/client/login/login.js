@@ -22,7 +22,7 @@ const Login = ({ auth }) => {
 	};
 
 	if (auth || loggedIn) {
-		return <Redirect to="/new" />;
+		return <Redirect to="/homepage" />;
 	}
 
 	return (

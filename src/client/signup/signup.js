@@ -38,7 +38,7 @@ const SignUp = ({ auth }) => {
 	};
 
 	if (auth) {
-		return <Redirect to="/new" />;
+		return <Redirect to="/homepage" />;
 	}
 
 	if (success) {

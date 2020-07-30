@@ -1,92 +1,89 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import '../app.css';
 import './homepage.css';
 
+class Homepage extends React.Component {
+	state = {
+		projects: [],
+		allProjects: [],
+	};
 
+	getProjects = () => {
+		fetch('/projects')
+			.then((response) => response.json())
+			.then((projects) => {
+				this.setState({ projects: projects, allProjects: projects });
+			});
+	};
 
+	componentDidMount() {
+		this.getProjects();
+	}
 
+	handleChange = (e) => {
+		this.setState({
+			projects: this.state.allProjects.filter((p) =>
+				p.title.includes(e.target.value)
+			),
+		});
+	};
 
-class Homepage extends React.Component{
-    state= {
-        projects: [],
-        search_results: [],
-        search_value: "",
-    }
+	render() {
+		return (
+			<div className="homepage_container vh-100">
+				<div className="header">
+					<div>
+						<h4 className="homepage_app_name">QuickCMS</h4>
+					</div>
+					<div>
+						<Link className="nav_button" to="#">
+							Help
+						</Link>
+						<Link className="nav_button" to="/profile">
+							Your account
+						</Link>
+					</div>
+				</div>
 
-    getProjects=() => {
-        fetch('/projects')
-        .then(response => response.json())
-        .then((projects)=> {
-            this.setState({projects: projects})
+				<div className="d-flex flex-row col-12 col-sm-10 col-md-9 col-lg-8 col-xl-7 mt-4 mx-auto">
+					<div>
+						<h5 className="heading">Your Projects</h5>{' '}
+					</div>
+					<div className="ml-auto">
+						<Link to="/new" className="btn ">
+							New Project
+						</Link>
+					</div>
+				</div>
 
-        });
-    }
-    componentDidMount(){
-        this.getProjects()
-    }
+				<div className="d-flex flex-column col-12 col-sm-10 col-md-9 col-lg-8 col-xl-7 mt-4 mx-auto">
+					<input
+						type="text"
+						value={this.state.search_value}
+						id="search"
+						className="input"
+						onChange={this.handleChange}
+						placeholder="Search for projects "
+					/>
+				</div>
 
- 
-    handleChange=(e)=>{
-        let current_list =[];
-        let new_list =[]; 
-        this.setState({
-            search_value: e.target.value
-        });     
-    }
-
-    onEntered=(e)=>{
-        if (e.key === 'Enter') {
-           console.log('do validate');
-        this.project_search(this.state.search_value)
-        }
-    }
-
-    project_search=(query)=>{
-        fetch(`/projects?search=${query}`)
-        .then(response => response.json())
-        .then((projects)=>{
-            console.log(projects)
-            this.setState({projects: projects})
-
-        });
-    }
-
-    render () {
-        console.log(this.state.search_value)
-        return(
-            
-                <div className="homepage_container">
-                    
-                        <div class="header">
-                            <div><h4 className="homepage_app_name">Quick CMS</h4></div>
-                            <div>
-                                <a className="left" href="#">Help</a>
-                                <a className="left" href="#">Your account</a>
-                            </div>
-                            </div>
-
-                            <div class="projects">
-                            <div><h5 className="heading">Your Projects</h5>  </div>                        
-                            <div><a href="/new" className="btn">New Project</a></div>
-                              </div>
-                            
-                              <div className="search_bar">
-                              <input type="text" value={this.state.search_value} onKeyDown={this.onEntered} id="search" className="input" onChange={this.handleChange} placeholder="Search for projects "/>
-                              </div>
-                                                     
-                                
-                                
-                                
-                                <div class="projects_list">
-                                {this.state.projects.map(project => <div class="project_name"> <div className="block"> </div> <div className="project_title">Project Name: {project.title}</div></div>)}  
-                                </div>       
-                    
-
-                           
-                        </div>
-
-        );
-    }
+				<div className="d-flex flex-column mx-auto mt-4 col-12 col-sm-10 col-md-9 col-lg-8 col-xl-7">
+					{this.state.projects.map((project, index) => (
+						<Link
+							className=" project_name"
+							key={index}
+							to={`project/${project.projectId}/pages`}>
+							{' '}
+							<div className="block"> </div>{' '}
+							<div className="project_title">Project Name: {project.title}</div>
+						</Link>
+					))}
+				</div>
+			</div>
+		);
+	}
 }
 
 export default Homepage;
