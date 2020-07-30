@@ -1,0 +1,31 @@
+.page-view {
+	display:flex;
+}
+
+.forms {
+	flex:;
+}
+
+
+.page-title {
+	margin-top: 25px;
+}
+
+/*.top-form {
+	left: 25%;
+	width: 45%;
+}*/
+
+/*.bottom-form {
+	
+	left: 25%;
+	top:50%;
+	width:45%;
+}*/
+
+.line {
+	top: 290px;
+	left: 300px;
+	width: 77.6%;
+	border: 1px solid #E5E5E5;
+}

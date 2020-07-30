@@ -1,0 +1,30 @@
+.side-bar {
+	width:302px;
+	height:100%;
+	left:-2px;
+	background-color:white;
+	border-right: 1px solid #E5E5E5;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+}
+
+body {
+	background-color:white;
+}
+
+.page {
+	width: 301px;
+	height: 85px;
+	border-bottom: 1px solid #E5E5E5;
+}
+
+.header {
+	margin-left:5px;
+	margin-top:5px;
+}
+
+.createPage {
+	margin-top: 10px;
+}
